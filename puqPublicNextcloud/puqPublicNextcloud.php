@@ -1,4 +1,15 @@
 <?php
+/*
+ +-----------------------------------------------------------------------------------------+
+ | This file is part of the WHMCS module. "PUQ_WHMCS-Public-Nextcloud"                     |
+ | The module allows you to manage the Nextcloud users as a product in the system WHMCS.   |
+ | This program is free software: you can redistribute it and/or modify it                 |
+ +-----------------------------------------------------------------------------------------+
+ | Author: Ruslan Poloviy ruslan.polovyi@puq.pl                                            |
+ | Warszawa 03.2021 PUQ sp. z o.o. www.puq.pl                                              |
+ | version: 1.1                                                                            |
+ +-----------------------------------------------------------------------------------------+
+*/
 function puqPublicNextcloud_MetaData()
 {
    return array(
