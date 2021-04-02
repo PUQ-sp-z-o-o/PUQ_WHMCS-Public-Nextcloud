@@ -1,4 +1,4 @@
-# PUQ_WHMCS-Nextcloud
+# PUQ_WHMCS-Public-Nextcloud
 
 Module for the WHMCS system.
 For manage NextCloudab users as a product.
@@ -35,7 +35,7 @@ NextClous: 21.0.0
 1. ```git clone https://github.com/PUQ-sp-z-o-o/PUQ_WHMCS-Public-Nextcloud.git```
 2. Copy "puqPublicNextcloud" to "WHMCS_WEB_DIR/modules/servers/"
 
-2. Create new server in WHMCS (System Settings->Products/Services->Servers)  
+2. Create new server NextCloud in WHMCS (System Settings->Products/Services->Servers)  
 - Hostname: Next cloud server DNS (cloud.xxxxx.xxx)
 - IP Address: IP adres Nexcloud serwer
 - Module: PuqPublicNextcloud
