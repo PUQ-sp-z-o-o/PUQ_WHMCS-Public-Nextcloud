@@ -23,6 +23,7 @@ Client area:
 
 - Change the NextCloud admin password
 - NextCloud Disk status
+- Ability to change disk quota (optional)
 ---------------------------------------------------------------
 Testing:
 
@@ -37,10 +38,11 @@ NextClous: 21.0.0
 
 2. Create new server NextCloud in WHMCS (System Settings->Products/Services->Servers)  
 - Hostname: Next cloud server DNS (cloud.xxxxx.xxx)
-- IP Address: IP adres Nexcloud serwer
 - Module: PuqPublicNextcloud
 - Username: Nextcloud admin user
 - Password: Nextcloud admin user password
+- Allow quota change (Allow client to change disk quota EXAMPLE: If billing for extra space)
+- Quotas for selection	(What limits the client can choose. Separated by commas. In Gb) 
 
 3. Create a new Products/Services
 - Module Settings/Module Name: PuqPublicNextcloud
