@@ -7,7 +7,7 @@
  +-----------------------------------------------------------------------------------------+
  | Author: Ruslan Poloviy ruslan.polovyi@puq.pl                                            |
  | Warszawa 03.2021 PUQ sp. z o.o. www.puq.pl                                              |
- | version: 1.1                                                                            |
+ | version: 1.2                                                                            |
  +-----------------------------------------------------------------------------------------+
 */
 function puqPublicNextcloud_MetaData()
@@ -24,14 +24,15 @@ function puqPublicNextcloud_ConfigOptions() {
     $configarray = array(
      'Group' => array( 'Type' => 'text', 'Default' => 'PublicNextcloud'),
      'Quota' => array( 'Type' => 'text', 'Default' => '10' ,'Size' => '10','Description' => 'GB',),
-     'IP Address (optional)' => array( 'Type' => 'text' ),
+     'Allow quota change' => array( 'Type' => 'radio', 'Default' => 'NO' ,'Options' =>'NO,YES', 'Description' => 'Allows client to change disk tquota (EXAMPLE: If billing for extra space)'),
+     'Quotas for selection' => array( 'Type' => 'text', 'Default' => '10,20,30,40,50,60,70,80,90,100' ,'Size' => '20','Description' => 'GB'),
     );
     return $configarray;
 }
 
 function puqPublicNextcloud_AdminLink($params) {
 
-    $code = '<form action="https://'.$params["serverhostname"].'" method="post" target="_blank">
+    $code = '<form action="https://'.$params['serverhostname'].'" method="post" target="_blank">
     <input type="submit" value="Login to Control Panel" />
     </form>';
     return $code;
@@ -198,8 +199,6 @@ function puqPublicNextcloud_ChangePassword($params) {
 }
 
 
-
-
 function puqPublicNextcloud_loadLangPUQ($params) {
 
   $lang = $params['model']['client']['language'];
@@ -210,14 +209,48 @@ function puqPublicNextcloud_loadLangPUQ($params) {
   if (!file_exists($langFile))
     $langFile = dirname(__FILE__) . "/lang/english.php";
     
-  require_once dirname(__FILE__) . '/lang/english.php';
-  require_once $langFile;
+  #require_once dirname(__FILE__) . '/lang/english.php';
+  require dirname(__FILE__) . '/lang/english.php';
+  #require_once $langFile;
+  require $langFile;
+
   return $_LANG_PUQ;  
 }
 
+function puqPublicNextcloud_changeLimit($params) {
+  $lang = puqPublicNextcloud_loadLangPUQ($params);
+
+  if ($_POST['limit']){
+    if ($params['configoption3'] == 'YES'){
+      #set user quota
+      $url = '/cloud/users/' . $params['username'];
+      $data = array(
+      'key' => 'quota',
+      'value' => $_POST['limit'].'GB',
+      );
+      $set_user_quota = puqPublicNextcloud_apiCurl($params,$data,$url, 'PUT');
+
+      if($set_user_quota['ocs']['meta']['statuscode'] == '100') {
+        $result = "success";
+      }
+      else{
+        $result = $result . ' Message: ' . $create_user['ocs']['meta']['message'];
+      }
+      return $result;
+    }else{
+      return  $lang['quota_change_option_disabled'];
+    }
+  }
+}
+
+function puqPublicNextcloud_ClientAreaAllowedFunctions() {
+    $buttonarray = array(
+	 "change_limit" => "changeLimit",
+	);
+	return $buttonarray;
+}
 
 function puqPublicNextcloud_ClientArea($params) {
-
   $lang = puqPublicNextcloud_loadLangPUQ($params);
 
   $data = array();
