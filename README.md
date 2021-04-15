@@ -16,6 +16,7 @@ Admin area:
 - Terminate users
 - Unsuspend users
 - Change the NextCloud users password
+- Change Package
 - API connection status
 - NextCloud Disk status
 
