@@ -7,7 +7,7 @@
  +-----------------------------------------------------------------------------------------+
  | Author: Ruslan Poloviy ruslan.polovyi@puq.pl                                            |
  | Warszawa 03.2021 PUQ sp. z o.o. www.puq.pl                                              |
- | version: 1.2                                                                            |
+ | version: 1.3                                                                            |
  +-----------------------------------------------------------------------------------------+
 */
 function puqPublicNextcloud_MetaData()
@@ -198,6 +198,29 @@ function puqPublicNextcloud_ChangePassword($params) {
     return $result;
 }
 
+function puqPublicNextcloud_ChangePackage($params) {
+
+    #set user quota
+    $url = '/cloud/users/' . $params['username'];
+    $data = array(
+    'key' => 'quota',
+    'value' => $params['configoption2'].'GB',
+    );
+    $curl = puqPublicNextcloud_apiCurl($params,$data,$url, 'PUT');
+    if(!$curl){
+      return 'API problem';
+    }
+
+    if($curl['ocs']['meta']['statuscode'] == '100') {
+      $result = 'success';
+    }else {
+      $result = ' code: ' . $curl['ocs']['meta']['statuscode'];
+      if($curl['ocs']['meta']['message'])
+        $result = $result . ' Message: ' . $curl['ocs']['meta']['message'];
+    }
+    return $result;
+
+}
 
 function puqPublicNextcloud_loadLangPUQ($params) {
 
